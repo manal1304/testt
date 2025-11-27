@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Moyenne Semestre 1</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 30px;
+    }
+    .container {
+        max-width: 900px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ccc;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background: #f0f0f0;
+    }
+    input {
+        width: 70px;
+        padding: 5px;
+        text-align: center;
+    }
+    .btn {
+        padding: 12px;
+        width: 100%;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    .btn:hover {
+        background: #0056b3;
+    }
+    #result {
+        font-size: 22px;
+        text-align: center;
+        margin-top: 20px;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Calcul de la Moyenne – Semestre 1</h2>
+
+    <table>
+        <tr>
+            <th>Module</th>
+            <th>Coeff</th>
+            <th>TP (40%)</th>
+            <th>Examen (60%)</th>
+            <th>Note Finale</th>
+        </tr>
+
+        <!-- UEF1 -->
+        <tr><td colspan="5" style="text-align:left;"><b>UEF1 – Fondamentales</b></td></tr>
+        <tr>
+            <td>Architecture Logicielle</td><td data-coeff="3">3</td>
+            <td><input type="number" class="tp"></td>
+            <td><input type="number" class="exam"></td>
+            <td class="final"></td>
+        </tr>
+        <tr>
+            <td>Réseaux Avancés</td><td data-coeff="2">2</td>
+            <td><input type="number" class="tp"></td>
+            <td><input type="number" class="exam"></td>
+            <td class="final"></td>
+        </tr>
+
+        <!-- UEF2 -->
+        <tr><td colspan="5" style="text-align:left;"><b>UEF2 – Fondamentales</b></td></tr>
+        <tr>
+            <td>IA : Apprentissage Automatique</td><td data-coeff="3">3</td>
+            <td><input type="number" class="tp"></td>
+            <td><input type="number" class="exam"></td>
+            <td class="final"></td>
+        </tr>
+        <tr>
+            <td>Analyse Statistique des Données</td><td data-coeff="2">2</td>
+            <td><input type="number" class="tp"></td>
+            <td><input type="number" class="exam"></td>
+            <td class="final"></td>
+        </tr>
+
+        <!-- UEM1 -->
+        <tr><td colspan="5" style="text-align:left;"><b>UEM1 – Méthodologie</b></td></tr>
+        <tr>
+            <td>Multimédia</td><td data-coeff="2">2</td>
+            <td><input type="number" class="tp"></td>
+            <td><input type="number" class="exam"></td>
+            <td class="final"></td>
+        </tr>
+        <tr>
+            <td>Optimisation Combinatoire</td><td data-coeff="2">2</td>
+            <td><input type="number" class="tp"></td>
+            <td><input type="number" class="exam"></td>
+            <td class="final"></td>
+        </tr>
+
+        <!-- UEM2 -->
+        <tr><td colspan="5" style="text-align:left;"><b>UEM2 – Méthodologie</b></td></tr>
+        <tr>
+            <td>Systèmes d’Aide à la Décision</td><td data-coeff="1">1</td>
+            <td><input type="number" class="tp"></td>
+            <td><input type="number" class="exam"></td>
+            <td class="final"></td>
+        </tr>
+        <tr>
+            <td>Méthodologies de Sécurité</td><td data-coeff="2">2</td>
+            <td><input type="number" class="tp"></td>
+            <td><input type="number" class="exam"></td>
+            <td class="final"></td>
+        </tr>
+
+        <!-- Transversale -->
+        <tr><td colspan="5" style="text-align:left;"><b>UE Transversale</b></td></tr>
+        <tr>
+            <td>Introduction au Traitement d’Images</td><td data-coeff="2">2</td>
+            <td><input type="number" class="tp"></td>
+            <td><input type="number" class="exam"></td>
+            <td class="final"></td>
+        </tr>
+    </table>
+
+    <button class="btn" onclick="calculate()">Calculer la Moyenne</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+function calculate() {
+    const rows = document.querySelectorAll("table tr");
+
+    let total = 0;
+    let coeffSum = 0;
+
+    rows.forEach(row => {
+        const coeffCell = row.querySelector("[data-coeff]");
+        const tpInput = row.querySelector(".tp");
+        const examInput = row.querySelector(".exam");
+        const finalCell = row.querySelector(".final");
+
+        if (coeffCell && tpInput && examInput) {
+            const tp = parseFloat(tpInput.value);
+            const exam = parseFloat(examInput.value);
+            const coeff = parseFloat(coeffCell.getAttribute("data-coeff"));
+
+            if (!isNaN(tp) && !isNaN(exam)) {
+                const finalNote = tp * 0.40 + exam * 0.60;
+                finalCell.textContent = finalNote.toFixed(2);
+
+                total += finalNote * coeff;
+                coeffSum += coeff;
+            }
+        }
+    });
+
+    const moyenne = coeffSum ? (total / coeffSum).toFixed(2) : "—";
+    document.getElementById("result").textContent = "Moyenne du Semestre : " + moyenne;
+}
+</script>
+
+</body>
+</html>
+
